@@ -1,0 +1,626 @@
+-- Creating the Employees table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    Position VARCHAR(100),
+    HireDate DATE,
+    Email VARCHAR(100),
+    DateOfBirth DATE,
+    EmergencyContact VARCHAR(15),
+    Address VARCHAR(200)
+);
+-- Creating the Customers table
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(15),
+    RegistrationDate DATE,
+    LoyaltyPoints INT,
+    Preferences VARCHAR(200),
+    Notes VARCHAR(200)
+);
+-- Creating the MenuItems table
+CREATE TABLE MenuItems (
+    MenuItemID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Description VARCHAR(100),
+    Price DECIMAL(10, 2),
+    Category VARCHAR(50),
+    NutritionInfo VARCHAR(200),
+    ServingSize VARCHAR(50)
+);
+-- Creating the Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    EmployeeID INT,  -- Assuming you want to track which employee took the order
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2),
+    Status VARCHAR(20),
+    Feedback VARCHAR(200),
+    CouponCode VARCHAR(50),
+    DeliveryAddress VARCHAR(200),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+-- Creating the OrderDetails table
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY,
+    OrderID INT,
+    MenuItemID INT,
+    Quantity INT,
+    Price DECIMAL(10, 2),
+    Subtotal DECIMAL(10, 2),
+    Discount DECIMAL(10, 2),
+    FinalPrice DECIMAL(10, 2),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (MenuItemID) REFERENCES MenuItems(MenuItemID)
+);
+-- Creating the Suppliers table
+CREATE TABLE Suppliers (
+    SupplierID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    ContactName VARCHAR(100),
+    PhoneNumber VARCHAR(15),
+    Email VARCHAR(100),
+    Rating DECIMAL(3,2),
+    DeliveryDays INT,
+    Address VARCHAR(200)
+);
+-- Creating the Inventory table
+CREATE TABLE Inventory (
+    InventoryID INT PRIMARY KEY,
+    MenuItemID INT,
+    SupplierID INT,
+    Quantity INT,
+    RestockDate DATE,
+    UnitPrice DECIMAL(10, 2),
+    ReorderLevel INT,
+    LastOrderDate DATE,
+    FOREIGN KEY (MenuItemID) REFERENCES MenuItems(MenuItemID),
+    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
+);
+-- Creating the Payments table
+CREATE TABLE Payments (
+    PaymentID INT PRIMARY KEY,
+    OrderID INT,
+    EmployeeID INT,  -- Assuming you want to track which employee processed the payment
+    PaymentDate DATE,
+    AmountPaid DECIMAL(10, 2),
+    PaymentMethod VARCHAR(50),
+    TransactionID VARCHAR(50),
+    CardType VARCHAR(30),
+    AuthorizationCode VARCHAR(50),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+-- Inserting into Employees table
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (1, 'Abir', 'Rahman', 'Manager', DATE '2022-01-10', 'abir@example.com', DATE '1990-05-15', '1234567890', '123 Main St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (2, 'Samir', 'Bissash', 'Assistant_Manager', DATE '2022-02-15', 'samir@example.com', DATE '1995-07-20', '2345678901', '456 Elm St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (3, 'Mahir', 'Rahman', 'Chef', DATE '2022-03-12', 'mahir@example.com', DATE '1992-09-30', '3456789012', '789 Oak St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (4, 'Sara', 'Ahmed', 'Barista', DATE '2023-05-20', 'sara@example.com', DATE '1993-11-25', '4567890123', '234 Maple Ave');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (5, 'Kamal', 'Hossain', 'Waiter', DATE '2023-06-15', 'kamal@example.com', DATE '1994-08-18', '5678901234', '567 Pine St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (6, 'Tina', 'Das', 'Barista', DATE '2023-07-10', 'tina@example.com', DATE '1996-01-05', '6789012345', '678 Cedar St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (7, 'Raj', 'Chakma', 'Chef', DATE '2023-08-05', 'raj@example.com', DATE '1989-03-22', '7890123456', '789 Oak St');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address) VALUES (8, 'Priya', 'Devi', 'Waiter', DATE '2023-09-01', 'priya@example.com', DATE '1997-07-12', '8901234567', '890 Elm St');
+-- Inserting into Customers table
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (1, 'Mou', 'mou@example.com', '1234567890', DATE '2023-01-01', 50, 'No specific preferences', 'Regular customer');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (2, 'Sehu', 'sehu@example.com', '2345678901', DATE '2023-02-02', 30, 'Prefers vegan options', 'Allergic to nuts');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (3, 'Adi', 'adi@example.com', '3456789012', DATE '2023-03-03', 20, 'Enjoys spicy food', 'First-time visitor');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (4, 'Sohan', 'sohan@example.com', '4567890123', DATE '2023-04-04', 10, 'Likes desserts', 'Regular customer');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (5, 'Rima', 'rima@example.com', '5678901234', DATE '2023-05-05', 40, 'Prefers organic food', 'Allergic to seafood');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (6, 'Neha', 'neha@example.com', '6789012345', DATE '2023-06-06', 60, 'Enjoys vegetarian meals', 'Regular customer');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (7, 'Raju', 'raju@example.com', '7890123456', DATE '2023-07-07', 25, 'Prefers gluten-free options', 'Allergic to dairy');
+INSERT INTO Customers (CustomerID, Name, Email, PhoneNumber, RegistrationDate, LoyaltyPoints, Preferences, Notes) VALUES (8, 'Anjali', 'anjali@example.com', '8901234567', DATE '2023-08-08', 35, 'Likes spicy food', 'Regular customer');
+-- Inserting into MenuItems table
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (1, 'Espresso', 'Strong coffee', 250, 'Beverage', 'Calories: 5, Protein: 0g, Fat: 0g, Carbs: 0g', '1 oz');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (2, 'Latte', 'Coffee with milk', 350, 'Beverage', 'Calories: 150, Protein: 8g, Fat: 5g, Carbs: 12g', '12 oz');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (3, 'Blueberry Muffin', 'Fresh muffins with blueberries', 275, 'Pastry', 'Calories: 300, Protein: 5g, Fat: 10g, Carbs: 45g', '1 piece');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (4, 'Cappuccino', 'Coffee with frothy milk', 400, 'Beverage', 'Calories: 200, Protein: 7g, Fat: 6g, Carbs: 18g', '8 oz');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (5, 'Croissant', 'Buttery pastry', 200, 'Pastry', 'Calories: 250, Protein: 4g, Fat: 12g, Carbs: 30g', '1 piece');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (6, 'Mocha', 'Coffee with chocolate', 450, 'Beverage', 'Calories: 350, Protein: 9g, Fat: 8g, Carbs: 25g', '16 oz');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (7, 'Bagel', 'Bread roll', 150, 'Bakery', 'Calories: 200, Protein: 6g, Fat: 2g, Carbs: 40g', '1 piece');
+INSERT INTO MenuItems (MenuItemID, Name, Description, Price, Category, NutritionInfo, ServingSize) VALUES (8, 'Tea', 'Hot beverage', 300, 'Beverage', 'Calories: 0, Protein: 0g, Fat: 0g, Carbs: 0g', '12 oz');
+-- Inserting into Orders table
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (1, 1, 1, DATE '2024-01-01', 675, 'Completed', 'Great service!', 'WELCOME10', '123 Main St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (2, 2, 2, DATE '2024-01-02', 350, 'Completed', 'Quick delivery', 'NEWCUSTOMER', '456 Elm St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (3, 3, 3, DATE '2024-01-03', 250, 'Completed', 'Excellent food quality', NULL, '789 Oak St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (4, 4, 4, DATE '2024-01-04', 800, 'Completed', 'Satisfied with the service', 'LOYALTY25', '234 Maple Ave');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (5, 5, 5, DATE '2024-01-05', 700, 'Completed', 'Delicious food!', 'REPEAT10', '567 Pine St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (6, 6, 6, DATE '2024-01-06', 600, 'Completed', 'Will order again', NULL, '678 Cedar St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (7, 7, 7, DATE '2024-01-07', 900, 'Completed', 'Fast delivery', 'FREESHIP', '789 Oak St');
+INSERT INTO Orders (OrderID, CustomerID, EmployeeID, OrderDate, TotalAmount, Status, Feedback, CouponCode, DeliveryAddress) VALUES (8, 8, 8, DATE '2024-01-08', 1000, 'Completed', 'Great experience', 'LOYALTY50', '890 Elm St');
+--Inserting into OrderDetails table
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (1, 1, 1, 1, 250, 250, 0, 250);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (2, 2, 2, 1, 350, 350, 0, 350);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (3, 3, 3, 1, 275, 275, 0, 275);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (4, 4, 4, 2, 400, 800, 0, 800);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (5, 5, 5, 3, 200, 600, 100, 500);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (6, 6, 6, 1, 450, 450, 0, 450);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (7, 7, 7, 4, 150, 600, 50, 550);
+INSERT INTO OrderDetails (OrderDetailID, OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice) VALUES (8, 8, 8, 2, 300, 600, 0, 600);
+
+--Inserting into Suppliers table
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (1, 'Good Eats', 'Sam Cook', '456-789-0123', 'good.eats@example.com', 4.5, 2, '123 Food St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (2, 'Daily Brew', 'Linda Bean', '567-890-1234', 'daily.brew@example.com', 4.0, 3, '456 Coffee St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (3, 'Morning Fresh', 'John Smith', '678-901-2345', 'morning.fresh@example.com', 4.2, 2, '789 Bakery St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (4, 'Sunrise Bakery', 'Emily Jones', '789-012-3456', 'sunrise.bakery@example.com', 4.8, 1, '234 Pastry St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (5, 'Fresh Delights', 'Daniel Lee', '890-123-4567', 'fresh.delights@example.com', 4.3, 2, '567 Bakery St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (6, 'Green Valley Farms', 'Sophia Brown', '901-234-5678', 'green.valley@example.com', 4.7, 3, '678 Farm St');
+INSERT INTO Suppliers (SupplierID, Name, ContactName, PhoneNumber, Email, Rating, DeliveryDays, Address) VALUES (7, 'Golden Grains', 'David Wilson', '012-345-6789', 'golden.grains@example.com', 4.6, 2, '789 Grain St');
+-- Inserting into Inventory table
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (1, 1, 1, 100, DATE '2024-01-10', 200, 20, DATE '2023-12-20');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (2, 2, 2, 150, DATE '2024-01-10', 300, 25, DATE '2023-12-21');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (3, 3, 3, 50, DATE '2024-01-15', 250, 15, DATE '2023-12-22');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (4, 4, 4, 200, DATE '2024-01-20', 400, 30, DATE '2023-12-23');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (5, 5, 5, 300, DATE '2024-01-25', 150, 40, DATE '2023-12-24');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (6, 6, 6, 150, DATE '2024-01-30', 350, 20, DATE '2023-12-25');
+INSERT INTO Inventory (InventoryID, MenuItemID, SupplierID, Quantity, RestockDate, UnitPrice, ReorderLevel, LastOrderDate) VALUES (7, 7, 7, 400, DATE '2024-02-05', 100, 35, DATE '2023-12-26');
+-- Inserting into Payments table
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (1, 1, 1, DATE '2024-01-01', 675, 'Credit Card', '1234567890', 'Visa', 'AUTH123');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (2, 2, 2, DATE '2024-01-02', 350, 'Debit Card', '2345678901', 'Mastercard', 'AUTH234');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (3, 3, 3, DATE '2024-01-03', 250, 'Cash', NULL, NULL, NULL);
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (4, 4, 4, DATE '2024-01-04', 800, 'Credit Card', '3456789012', 'Visa', 'AUTH345');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (5, 5, 5, DATE '2024-01-05', 700, 'Mobile Payment', '4567890123', 'PayPal', 'AUTH456');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (6, 6, 6, DATE '2024-01-06', 600, 'Credit Card', '5678901234', 'American Express', 'AUTH567');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (7, 7, 7, DATE '2024-01-07', 900, 'Debit Card', '6789012345', 'Visa', 'AUTH678');
+INSERT INTO Payments (PaymentID, OrderID, EmployeeID, PaymentDate, AmountPaid, PaymentMethod, TransactionID, CardType, AuthorizationCode) VALUES (8, 8, 8, DATE '2024-01-08', 1000, 'Cash', NULL, NULL, NULL);
+
+
+-- Description of each table
+DESC Employees;
+DESC Customers;
+DESC MenuItems;
+DESC Orders;
+DESC OrderDetails;
+DESC Suppliers;
+DESC Inventory;
+DESC Payments;
+
+-- Data according to each table
+SELECT * FROM Employees;
+SELECT * FROM Customers;
+SELECT * FROM MenuItems;
+SELECT * FROM Orders;
+SELECT * FROM OrderDetails;
+SELECT * FROM Suppliers;
+SELECT * FROM Inventory;
+SELECT * FROM Payments;
+-- Add operation (adding column)
+ALTER TABLE Employees ADD temporary_column VARCHAR2(50);
+DESC Employees;
+SELECT * FROM Employees;
+
+-- Drop operation (dropping column)
+ALTER TABLE Employees DROP COLUMN temporary_column;
+DESC Employees;
+SELECT * FROM Employees;
+
+-- Modify operation (modifying column data type)
+ALTER TABLE Employees MODIFY HireDate DATE;
+DESC Employees;
+SELECT * FROM Employees;
+
+-- Rename operation (renaming column)
+ALTER TABLE Employees RENAME COLUMN FirstName TO First_Name;
+DESC Employees;
+SELECT * FROM Employees;
+
+ALTER TABLE Employees RENAME COLUMN First_Name TO FirstName;
+DESC Employees;
+SELECT * FROM Employees;
+
+-- Update operation (updating a value)
+UPDATE Employees SET HireDate = DATE '2022-06-29' WHERE EmployeeID = 8;
+DESC Employees;
+SELECT * FROM Employees;
+
+UPDATE Employees SET HireDate = DATE '2022-06-26' WHERE EmployeeID =8;
+DESC Employees;
+SELECT * FROM Employees;
+
+-- Delete operation (deleting a row from Employees table)
+DELETE FROM Employees WHERE EmployeeID = 5;
+DESC Employees;
+SELECT * FROM Employees;
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Position, HireDate) VALUES (5, 'A', '13000', 'Manager', DATE '2022-01-10');
+SELECT * FROM Employees;
+
+-- Calculated field
+SELECT (EmployeeID / 2) AS EmployeeID_divided_by_two FROM Employees;
+
+-- Applying conditions
+SELECT Email FROM Customers WHERE CustomerID = 1;
+
+-- Range search
+SELECT Email, Name FROM Customers WHERE CustomerID BETWEEN 1 AND 5;
+SELECT Email, Name FROM Customers WHERE CustomerID NOT BETWEEN 1 AND 5;
+
+-- Set membership
+SELECT Email, Name FROM Customers WHERE CustomerID IN (1, 5);
+SELECT Email, Name FROM Customers WHERE CustomerID NOT IN (1, 5);
+
+-- Ordering by column values
+SELECT Email,Name  FROM Customers ORDER BY CustomerID; 
+-- Single Column Ordering
+SELECT Email,Name FROM Customers ORDER BY CustomerID DESC;
+
+-- Use of DISTINCT
+SELECT DISTINCT CustomerID FROM Customers;
+
+-- Aggregate functions
+SELECT MAX(CustomerID) FROM Customers;
+SELECT MIN(CustomerID) FROM Customers;
+SELECT SUM(CustomerID) FROM Customers;
+SELECT COUNT(CustomerID) FROM Customers;
+SELECT COUNT(*) FROM Customers;
+SELECT COUNT(DISTINCT CustomerID) FROM Customers;
+SELECT AVG(CustomerID) FROM Customers;
+SELECT AVG(NVL(CustomerID, 0)) FROM Customers;
+
+-- Pattern Matching
+SELECT CustomerID FROM Customers WHERE Email LIKE '%ma%';
+SELECT CustomerID FROM Customers WHERE Email LIKE 'a%';
+SELECT CustomerID FROM Customers WHERE Email LIKE '%com';
+
+-- GROUP BY clause
+SELECT COUNT(EmployeeID), Position FROM Employees GROUP BY Position;
+SELECT COUNT(EmployeeID), Position FROM Employees WHERE Position = 'Manager' GROUP BY Position;
+
+-- HAVING clause
+SELECT COUNT(EmployeeID), Position FROM Employees GROUP BY Position HAVING COUNT(EmployeeID) > 1;
+
+-- IN
+SELECT CustomerID, Name, Email FROM Customers WHERE Name IN ('A', 'D', 'I');
+
+-- Nested query
+SELECT FirstName FROM Employees WHERE EmployeeID IN (SELECT EmployeeID FROM Employees WHERE Position = 'Manager');
+-- Select all records from the MenuItems table where the MenuItemID is greater than some of the MenuItemIDs greater than or equal to 14
+SELECT * FROM MenuItems WHERE MenuItemID > SOME(SELECT MenuItemID FROM MenuItems WHERE MenuItemID >= 4);
+
+-- Select all records from the MenuItems table where the MenuItemID is greater than all of the MenuItemIDs greater than or equal to 4
+SELECT * FROM MenuItems WHERE MenuItemID > ALL(SELECT MenuItemID FROM MenuItems WHERE MenuItemID >= 3);
+
+
+-- Set operations
+
+-- UNION ALL operation
+SELECT Name, PhoneNumber FROM Customers WHERE CustomerID >1 AND CustomerID <3
+UNION ALL
+SELECT FirstName, LastName FROM Employees WHERE EmployeeID > 4 AND EmployeeID <5;
+
+-- UNION operation
+SELECT CustomerID FROM Customers WHERE CustomerID <3
+UNION
+SELECT CustomerID FROM Orders where CustomerID <6;
+
+-- INTERSECT operation
+SELECT CustomerID FROM Customers
+INTERSECT
+SELECT CustomerID FROM Orders;
+-- Simple join examples
+
+-- Join
+SELECT o.OrderID, o.CustomerID, od.OrderDetailID FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID;
+
+-- Natural Join
+SELECT CustomerID, Name, PhoneNumber FROM Customers NATURAL JOIN Orders;
+--full outer join
+SELECT e.EmployeeID, e.FirstName, e.LastName, e.Position, e.HireDate, c.CustomerID, c.Name, c.Email, c.PhoneNumber
+FROM Employees e
+FULL OUTER JOIN Customers c ON e.EmployeeID = c.CustomerID;
+--right  outer join
+
+SELECT e.EmployeeID, e.FirstName, e.LastName, e.Position, e.HireDate, c.CustomerID, c.Name, c.Email, c.PhoneNumber
+FROM Employees e
+RIGHT OUTER JOIN Customers c ON e.EmployeeID = c.CustomerID;
+
+--left outer join
+
+SELECT e.EmployeeID, e.FirstName, e.LastName, e.Position, e.HireDate, c.CustomerID, c.Name, c.Email, c.PhoneNumber
+FROM Employees e
+LEFT OUTER JOIN Customers c ON e.EmployeeID = c.CustomerID;
+
+-- View to retrieve order details including customer and menu item information
+CREATE VIEW OrderDetailsView AS
+SELECT o.OrderID, c.Name AS CustomerName, m.Name AS MenuItem, od.Quantity, od.Price
+FROM Orders o
+JOIN Customers c ON o.CustomerID = c.CustomerID
+JOIN OrderDetails od ON o.OrderID = od.OrderID
+JOIN MenuItems m ON od.MenuItemID = m.MenuItemID;
+
+--Cascading Actions in Referential Integrity
+CREATE TABLE Customers2(
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(15)
+);
+CREATE TABLE Orders2(
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers2(CustomerID)
+    on delete cascade
+);
+-- Inserting into Customers table
+INSERT INTO Customers2 (CustomerID, Name, Email, PhoneNumber) VALUES (1, 'Mou', 'mou@example.com', '1234567890');
+INSERT INTO Customers2 (CustomerID, Name, Email, PhoneNumber) VALUES(2, 'Sehu', 'sehu@example.com', '2345678901');
+INSERT INTO Customers2 (CustomerID, Name, Email, PhoneNumber) VALUES(3, 'Adi', 'adi@example.com', '3456789012');
+INSERT INTO Customers2 (CustomerID, Name, Email, PhoneNumber) VALUES (4, 'Sohan', 'sohan@example.com', '4567890123');
+-- Inserting into Orders table
+INSERT INTO Orders2 (OrderID, CustomerID, OrderDate, TotalAmount) VALUES(1, 1,DATE '2024-01-01', 675);
+INSERT INTO Orders2 (OrderID, CustomerID, OrderDate, TotalAmount) VALUES(2, 2,DATE '2024-01-02', 350);
+INSERT INTO Orders2 (OrderID, CustomerID, OrderDate, TotalAmount) VALUES(3, 3,DATE '2024-01-03', 250);
+INSERT INTO Orders2 (OrderID, CustomerID, OrderDate, TotalAmount) VALUES (4, 4, DATE '2024-01-04', 800);
+delete from Customers2 where CustomerID=2;
+
+select * from Customers2;
+select * from Orders2;
+
+-- Creating the Employees table with constraints
+CREATE TABLE Employees2 (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(100) NOT NULL,
+    LastName VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Age INT CHECK (Age >= 18 AND Age <= 65),
+    Position VARCHAR(100) NOT NULL,
+    Status VARCHAR(10) CHECK (Status IN ('active', 'inactive', 'pending')),
+    HireDate DATE NOT NULL,
+    TerminationDate DATE,
+    CONSTRAINT check_hire_termination_dates CHECK (
+        (Status = 'inactive' AND TerminationDate IS NOT NULL AND HireDate <= TerminationDate) OR
+        (Status = 'inactive' AND TerminationDate IS NOT NULL) OR
+        (Status = 'pending' AND TerminationDate IS NULL) OR
+        (Status = 'active' AND TerminationDate IS NULL)
+    )
+);
+-- Inserting data into the Employees table
+INSERT INTO Employees2 (EmployeeID, FirstName, LastName, Email, Age, Position, Status, HireDate, TerminationDate) 
+VALUES (2, 'Alice', 'Smith', 'alice.smith@example.com', 25, 'Waiter', 'inactive', DATE '2021-05-20', DATE '2022-03-15');
+--Constraints on a Single Relation
+CREATE TABLE emp (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    age INTEGER CHECK (age >= 18)
+);
+CREATE TABLE emp2 (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    age INTEGER CHECK (age >= 18 AND age <= 120),
+    status VARCHAR(10) CHECK (status IN ('active', 'inactive', 'pending')),
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    CONSTRAINT check_age_status CHECK (
+        (status = 'active' AND age >= 18 AND age <= 65) OR
+        (status = 'inactive' AND age >= 18 AND age <= 120) OR
+        (status = 'pending' AND age >= 18 AND age <= 100) OR
+        (end_date > start_date)
+    )
+);
+insert into emp values(1,'ss','ss@gmail.com',25);
+insert into emp2 values(3,'ss','ss@gmail.com',25,'active','03-APR-2007','04-APR-2009');
+
+
+--Insert and Set Default pl/sql Values
+SET SERVEROUTPUT ON;
+DECLARE 
+  v_employee_id Employees.EmployeeID%TYPE := 9;
+  v_first_name Employees.FirstName%TYPE := 'John';
+  v_last_name Employees.LastName%TYPE := 'Doe';
+  v_position Employees.Position%TYPE := 'Manager';
+  v_hire_date Employees.HireDate%TYPE := SYSDATE;
+  v_email Employees.Email%TYPE := 'john.doe@example.com';
+  v_dob Employees.DateOfBirth%TYPE := DATE '1985-05-15';
+  v_emergency_contact Employees.EmergencyContact%TYPE := '1234567890';
+  v_address Employees.Address%TYPE := '123 Maple Street';
+BEGIN
+  INSERT INTO Employees VALUES (v_employee_id, v_first_name, v_last_name, v_position, v_hire_date, v_email, v_dob, v_emergency_contact, v_address);
+  DBMS_OUTPUT.PUT_LINE('Insert successful');
+END;
+/
+
+
+
+
+--Row Type
+SET SERVEROUTPUT ON;
+DECLARE 
+  v_employee_row Employees%ROWTYPE;
+BEGIN
+  SELECT * INTO v_employee_row FROM Employees WHERE EmployeeID = 9;
+  DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_employee_row.FirstName || ' ' || v_employee_row.LastName);
+END;
+/
+
+
+--Cursor and Row Count
+SET SERVEROUTPUT ON;
+DECLARE 
+  CURSOR employee_cursor IS SELECT * FROM Employees;
+  v_employee_row Employees%ROWTYPE;
+BEGIN
+  OPEN employee_cursor;
+  FETCH employee_cursor INTO v_employee_row;
+  WHILE employee_cursor%FOUND LOOP
+    DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_employee_row.EmployeeID || ', Name: ' || v_employee_row.FirstName || ' ' || v_employee_row.LastName);
+    FETCH employee_cursor INTO v_employee_row;
+  END LOOP;
+  CLOSE employee_cursor;
+END;
+/
+
+
+--FOR LOOP / WHILE LOOP / ARRAY with EXTEND() Function
+SET SERVEROUTPUT ON;
+DECLARE
+  TYPE NameArray IS VARRAY(9) OF VARCHAR2(100);
+  v_names NameArray := NameArray();
+  v_name VARCHAR2(100);
+BEGIN
+  FOR i IN 1..9 LOOP -- Loop through all employee IDs from 1 to 9
+    BEGIN
+      SELECT FirstName INTO v_name FROM Employees WHERE EmployeeID = i;
+      v_names.EXTEND; -- Extend the array for each new name
+      v_names(v_names.LAST) := v_name;
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        NULL;
+    END;
+  END LOOP;
+END;
+/
+
+--IF / ELSEIF / ELSE
+SET SERVEROUTPUT ON;
+DECLARE 
+  v_order_total Orders.TotalAmount%TYPE;
+BEGIN
+  FOR rec IN (SELECT * FROM Orders) LOOP
+    v_order_total := rec.TotalAmount;
+    IF v_order_total > 1000 THEN
+      DBMS_OUTPUT.PUT_LINE('Order ID ' || rec.OrderID || ' is a high value order.');
+    ELSIF v_order_total BETWEEN 500 AND 1000 THEN
+      DBMS_OUTPUT.PUT_LINE('Order ID ' || rec.OrderID || ' is a medium value order.');
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('Order ID ' || rec.OrderID || ' is a low value order.');
+    END IF;
+  END LOOP;
+END;
+/
+
+
+--PL/SQL Procedure to Fetch Employee Details by ID
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE PROCEDURE GetEmployeeDetails (p_emp_id IN Employees.EmployeeID%TYPE) IS
+  v_first_name Employees.FirstName%TYPE;
+  v_last_name Employees.LastName%TYPE;
+  v_position Employees.Position%TYPE;
+  v_hire_date Employees.HireDate%TYPE;
+  v_email Employees.Email%TYPE;
+  v_dob Employees.DateOfBirth%TYPE;
+  v_emergency_contact Employees.EmergencyContact%TYPE;
+  v_address Employees.Address%TYPE;
+BEGIN
+  SELECT FirstName, LastName, Position, HireDate, Email, DateOfBirth, EmergencyContact, Address 
+  INTO v_first_name, v_last_name, v_position, v_hire_date, v_email, v_dob, v_emergency_contact, v_address
+  FROM Employees
+  WHERE EmployeeID = p_emp_id;
+
+  DBMS_OUTPUT.PUT_LINE('First Name: ' || v_first_name || ', Last Name: ' || v_last_name || 
+                       ', Position: ' || v_position || ', Hire Date: ' || v_hire_date ||
+                       ', Email: ' || v_email || ', Date of Birth: ' || v_dob ||
+                       ', Emergency Contact: ' || v_emergency_contact || ', Address: ' || v_address);
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No employee found with ID ' || p_emp_id);
+END;
+/
+
+--PL/SQL Function to Calculate Total Sales
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE FUNCTION CalculateTotalSales RETURN DECIMAL IS
+  total_sales DECIMAL(10, 2);
+BEGIN
+  SELECT SUM(TotalAmount) INTO total_sales FROM Orders;
+  RETURN total_sales;
+END;
+/
+
+DECLARE
+  total DECIMAL;
+BEGIN
+  total := CalculateTotalSales;
+  DBMS_OUTPUT.PUT_LINE('Total Sales: ' || total);
+END;
+/
+
+
+--PL/SQL Trigger to Automatically Update Inventory on Order
+CREATE OR REPLACE TRIGGER UpdateInventory
+AFTER INSERT ON OrderDetails
+FOR EACH ROW
+BEGIN
+  UPDATE Inventory
+  SET Quantity = Quantity - :NEW.Quantity
+  WHERE MenuItemID = :NEW.MenuItemID;
+
+  IF SQL%ROWCOUNT = 0 THEN
+    -- Optionally, raise an error if no inventory was found to update
+    RAISE_APPLICATION_ERROR(-20001, 'No inventory record found for MenuItemID: ' || :NEW.MenuItemID);
+  END IF;
+END;
+/
+
+--PL/SQL Procedure to Add New Order and Order Details
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE PROCEDURE AddOrder(
+  p_customer_id Customers.CustomerID%TYPE,
+  p_order_date DATE,
+  p_menu_items SYS.ODCINUMBERLIST,
+  p_quantities SYS.ODCINUMBERLIST
+) IS
+  v_order_id Orders.OrderID%TYPE;
+BEGIN
+  INSERT INTO Orders (CustomerID, OrderDate, TotalAmount)
+  VALUES (p_customer_id, p_order_date, 0)
+  RETURNING OrderID INTO v_order_id;
+
+  FOR i IN 1..p_menu_items.COUNT LOOP
+    INSERT INTO OrderDetails (OrderID, MenuItemID, Quantity, Price, Subtotal, Discount, FinalPrice)
+    SELECT v_order_id, p_menu_items(i), p_quantities(i), Price, Price * p_quantities(i), 0, Price * p_quantities(i)
+    FROM MenuItems WHERE MenuItemID = p_menu_items(i);
+  END LOOP;
+
+  UPDATE Orders
+  SET TotalAmount = (SELECT SUM(FinalPrice) FROM OrderDetails WHERE OrderID = v_order_id)
+  WHERE OrderID = v_order_id;
+
+  COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END;
+/
+
+--create a trigger that automatically updates the TotalAmount in the Orders table and reduces the inventory quantity in the Inventory table when a new order detail is inserted into the OrderDetails table
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE TRIGGER UpdateOrderAndInventory
+AFTER INSERT ON OrderDetails
+FOR EACH ROW
+DECLARE
+    v_new_inventory INT;
+BEGIN
+    UPDATE Inventory
+    SET Quantity = Quantity - :NEW.Quantity
+    WHERE MenuItemID = :NEW.MenuItemID;
+
+    IF SQL%ROWCOUNT = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'No inventory record found for MenuItemID: ' || :NEW.MenuItemID);
+    END IF;
+
+    SELECT Quantity INTO v_new_inventory FROM Inventory WHERE MenuItemID = :NEW.MenuItemID;
+    DBMS_OUTPUT.PUT_LINE('Updated Inventory for MenuItemID ' || :NEW.MenuItemID || ': ' || v_new_inventory);
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No inventory record found for MenuItemID ' || :NEW.MenuItemID);
+END;
+/
+
+
+--PL/SQL Block to Display Project Details
+SET SERVEROUTPUT ON;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Project Name: Cafe Management System');
+  DBMS_OUTPUT.PUT_LINE('Created by: Prova Rani Paul');
+  DBMS_OUTPUT.PUT_LINE('Roll: 2007037');
+END;
+/
